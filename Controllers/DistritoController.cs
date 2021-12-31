@@ -11,12 +11,11 @@ namespace YAPECITO.Controllers
     [ApiController]
     public class DistritoController : Controller
     {
-        [HttpGet]
-        public ActionResult Index()
-        {
-            return View();
-        }
-
+        //[HttpGet]
+        //public ActionResult Index()
+        //{
+        //    return View();
+        //}
         
     }
 }
