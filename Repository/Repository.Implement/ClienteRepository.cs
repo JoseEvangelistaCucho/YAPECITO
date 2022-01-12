@@ -152,7 +152,7 @@ namespace YAPECITO.Repository.Repository.Implement
                 if (Opedido.Count() > 0)
                 {
                     res.Estado = "0";
-                    res.Mensaje = "todo esta perfecto ";
+                    res.Mensaje = "todo esta perfecto siga ";
                     res.Detalle.Add("Pedido", Opedido);
                 }
                 else if (Opedido.Count() < 0)
@@ -164,5 +164,10 @@ namespace YAPECITO.Repository.Repository.Implement
                 return res;
             }
         }
+        /* [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+             _unit.Clientes.Delete(_unit.Clientes.GetById(id));
+        }*/
     }
 }
