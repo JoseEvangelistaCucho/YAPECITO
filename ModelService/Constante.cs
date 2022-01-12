@@ -52,5 +52,28 @@ namespace YAPECITO.ModelService
         public const string ESTADOCLIENTE = "@ESTADOCLIENTE";
         public const string IDCLIENTE = "@IDCLIENTE";
         public const int IDCLIENTEVALUE = 0;
+
+        //Ubigeo Parametros del Ubigeo
+
+        public const string NAME_USP_BUSCAR_UBIGEO = "BuscarUbigeo";
+        public const string IDDEPARTAMENTO = "@IdDepartamento";
+
+        //ProductoCategoria
+
+        public const string NAME_USP_LISTAR_PRODUCTO_CATEGORIA = "ListarProductoCategoria";
+        public const string IDCATEGORIA = "@IdCategoria";
+
+        //Producto
+        public const string NAME_USP_ELIMINAR_PRODUCTO = "EliminarProducto";
+        public const string IDPRODUCTO = "@idProducto";
+
+        //ProductoInsertar
+
+        public const string NAME_USP_INSERTAR_PRODUCTO = "InsertarProducto";
+        public const string NOMBREPRODUCTO = "@Nombre";
+        public const string PRECIO = "@Precio";
+        public const string DESCRIPCION = "@Descripcion";
+        public const string FECHACREACION = "@fechaCreacion";
+        public const string STOCK = "@stock";
     }
 }

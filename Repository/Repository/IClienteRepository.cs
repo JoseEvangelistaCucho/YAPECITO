@@ -1,5 +1,4 @@
 ﻿using YAPECITO.Models;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +13,5 @@ namespace YAPECITO.Repository.Repository
         ResponseHeader GetByDocumento(string tipo, string nroDocumento);
         ResponseHeader CrearCliente(Cliente cliente);
         ResponseHeader ActualizarCliente(Cliente cliente);
-      
     }
 }

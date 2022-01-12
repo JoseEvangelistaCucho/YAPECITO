@@ -27,22 +27,18 @@ namespace YAPECITO.Controllers
         [HttpGet]
         public IEnumerable<Cliente> Get()
         {
-           
             return _unit.Clientes.GetList();
         }
 
         [HttpGet("{tipo}/{nroDocumento}")]
         public IActionResult Get(string tipo, string nroDocumento)
         {
-
-
             return Ok(_unit.Clientes.GetByDocumento(tipo, nroDocumento));
         }
 
         [HttpPost("crearCliente")]
         public ResponseHeader CrearCliente([FromBody] Cliente cliente) //El [FromBody] es opcional
         {
-
             return _unit.Clientes.CrearCliente(cliente);
         }
         [HttpPut]
@@ -55,8 +51,8 @@ namespace YAPECITO.Controllers
 
        /* [HttpDelete("{id}")]
         public void Delete(int id)
-        {
+       {
              _unit.Clientes.Delete(_unit.Clientes.GetById(id));
-        }*/
+       }*/
     }
 }

@@ -12,8 +12,11 @@ namespace YAPECITO.Repository.Repository.Implement
         public DbYAPECITOUnitOfWork(string connectionString)
         {
             Clientes = new ClienteRepository(connectionString);
+            Ubigeo = new UbigeoRepository(connectionString);
+            ProductoCategoria = new ProductoCategoriaRepository(connectionString);
         }
-
         public IClienteRepository Clientes { get; private set; }
+        public IUbigeoRepository Ubigeo { get; private set; }
+        public IProductoCategoriaRepository ProductoCategoria { get; private set; }
     }
 }
