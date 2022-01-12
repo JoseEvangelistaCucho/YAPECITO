@@ -9,21 +9,27 @@ namespace YAPECITO.ModelService
     {
         //cliente Parametros
         ////dbo.uspBuscarClienteByDocumento
-        public const string NAME_USP_BUSCAR_BY_DOCUMENTO = "dbo.uspBuscarClienteByDocumento";
-        public const string TIPO = "@tipo";
-        public const string NRODOCUMENTO = "@nroDocumento";
-        ///
-        public const string OV_ESTADO = "@OV_ESTADO";
-        public const string OV_MESSAGE = "@OV_MESSAGE";
-        public const string OK = "0";
+     
         ////dbo.uspCrearCliente
-        public const string NAME_USP_CREAR_CLIENTE = "dbo.uspCrearCliente";
-        public const string NAME_USP_ACTUALIZAR_CLIENTE = "dbo.uspActualizarCliente";
-        public const string TIPODOCUMENTO = "@TIPODOCUMENTO";
-        public const string PAISDOCUMENTO = "@PAISDOCUMENTO";
-        public const string NOMBRE = "@PRIMERNOMBRE";
-        public const string SEGUNDONOMBRE = "@SEGUNDONOMBRE";
-        public const string APELLIDOPATERNO = "@APELLIDOPATERNO";
+        public const string NAME_USP_CREARCLIENTES = "dbo.USP_CREARCLIENTES";
+        public const string NAME_USP_ACTUALIZARCLIENTES = "dbo.USP_ACTUALIZARCLIENTES";
+        public const string NAME_USP_ACTUALIZARESTADO= "dbo.USP_ACTUALIZARESTADO";
+        public const string NAME_USP_ACTUALIZAcliente = "dbo.USP_ACTUALIZARcliente";
+        public const string NAME_USP_busardni = "dbo.uspBuscardni";
+        public const string IDCLIENTES = "@IdClientes";
+        public const string email = "@email";
+        public const string Contraseña = "@Contraseña";
+        public const string Direccion = "@Direccion";
+        public const string Pais = "@Pais";
+        public const string ubigeo = "@ubigeo";
+        public const string estado = "@estado";
+        public const string DNI = "@DNI";
+        public const string telefono = "@telefono";
+        
+
+
+        public const string NAME_SP_ListarClientes = "dbo.SP_ListarClientes";
+
         public const string APELLIDOMATERNO = "@APELLIDOMATERNO";
         public const string NOMBREEMPRESA = "@NOMBREEMPRESA";
         public const string FECHANACIMIENTO = "@FECHANACIMIENTO";
@@ -52,5 +58,17 @@ namespace YAPECITO.ModelService
         public const string ESTADOCLIENTE = "@ESTADOCLIENTE";
         public const string IDCLIENTE = "@IDCLIENTE";
         public const int IDCLIENTEVALUE = 0;
+
+
+
+        ////dbo.uspBuscarClienteByDocumento
+        public const string NAME_USP_BUSCAR_CLIENTES = "dbo.uspBuscarClientes";
+     
+        public const string NombreCompleto = "@NombreCompleto";
+        public const string OV_ESTADO = "@OV_ESTADO";
+        public const string OV_MESSAGE = "@OV_MESSAGE";
+        public const string OK = "0";
+        ///
+
     }
 }

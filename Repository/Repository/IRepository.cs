@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YAPECITO.Models;
+using YAPECITO.ModelService;
 
 namespace YAPECITO.Repository.Repository
 {
@@ -14,5 +16,6 @@ namespace YAPECITO.Repository.Repository
         IEnumerable<T> GetList();
         T GetById(int id);
         T GetById(string id);
+     
     }
 }

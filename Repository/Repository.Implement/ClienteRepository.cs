@@ -1,6 +1,9 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using YAPECITO.Models;
 using YAPECITO.ModelService;
 
@@ -12,19 +15,67 @@ namespace YAPECITO.Repository.Repository.Implement
         {
         }
 
-        public ResponseHeader GetByDocumento(string tipo, string nroDocumento)
+        public ResponseHeader ActualizarCliente(Cliente clientes, int IdClientes)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 var respuesta = new ResponseHeader();
                 var parameters = new DynamicParameters();
-                parameters.Add(Constante.TIPO, tipo);
-                parameters.Add(Constante.NRODOCUMENTO, nroDocumento);
+                parameters.Add(Constante.NombreCompleto, clientes.NombreCompleto);
+                parameters.Add(Constante.DNI, clientes.DNI);
+                parameters.Add(Constante.telefono, clientes.telefono);
+                parameters.Add(Constante.email, clientes.email);
+                parameters.Add(Constante.Contraseña, clientes.contraseña);
+                parameters.Add(Constante.Direccion, clientes.Direccion);
+                parameters.Add(Constante.Pais, clientes.Pais);
+                parameters.Add(Constante.ubigeo, clientes.ubigeo);
+                parameters.Add(Constante.estado, clientes.estado);
+                parameters.Add(Constante.IDCLIENTES, IdClientes);
                 parameters.Add(Constante.OV_ESTADO, Constante.OV_ESTADO, System.Data.DbType.String, System.Data.ParameterDirection.Output);
                 parameters.Add(Constante.OV_MESSAGE, Constante.OV_MESSAGE, System.Data.DbType.String, System.Data.ParameterDirection.Output);
 
-                Cliente responsedetail = connection.QueryFirstOrDefault<Cliente>
-                (Constante.NAME_USP_BUSCAR_BY_DOCUMENTO, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                connection.Query(Constante.NAME_USP_ACTUALIZARCLIENTES, parameters, commandType: System.Data.CommandType.StoredProcedure);
+
+                respuesta.Estado = parameters.Get<string>(Constante.OV_ESTADO);
+                respuesta.Mensaje = parameters.Get<String>(Constante.OV_MESSAGE);
+                respuesta.Detalle.Add(clientes.GetType().Name, clientes);
+                return respuesta;
+            }
+        }
+
+        public ResponseHeader Actualizarestado(int IdClientes, int estado)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var respuesta = new ResponseHeader();
+                var parameters = new DynamicParameters();
+                parameters.Add(Constante.IDCLIENTES, IdClientes);
+                parameters.Add(Constante.estado, estado);
+                parameters.Add(Constante.OV_ESTADO, Constante.OV_ESTADO, System.Data.DbType.String, System.Data.ParameterDirection.Output);
+                parameters.Add(Constante.OV_MESSAGE, Constante.OV_MESSAGE, System.Data.DbType.String, System.Data.ParameterDirection.Output);
+
+                connection.Query(Constante.NAME_USP_ACTUALIZARESTADO, parameters, commandType: System.Data.CommandType.StoredProcedure);
+
+                respuesta.Estado = parameters.Get<string>(Constante.OV_ESTADO);
+                respuesta.Mensaje = parameters.Get<String>(Constante.OV_MESSAGE);
+   
+                return respuesta;
+            }
+        }
+
+        public ResponseHeader buscardni(string NOMBRE_o_DNI)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var respuesta = new ResponseHeader();
+                var parameters = new DynamicParameters();
+             
+                parameters.Add(Constante.NombreCompleto, NOMBRE_o_DNI);
+                parameters.Add(Constante.OV_ESTADO, Constante.OV_ESTADO, System.Data.DbType.String, System.Data.ParameterDirection.Output);
+                parameters.Add(Constante.OV_MESSAGE, Constante.OV_MESSAGE, System.Data.DbType.String, System.Data.ParameterDirection.Output);
+
+                IEnumerable<Cliente> responsedetail = connection.Query<Cliente>
+               (Constante.NAME_USP_busardni, parameters, commandType: System.Data.CommandType.StoredProcedure);
 
                 respuesta.Estado = parameters.Get<string>(Constante.OV_ESTADO);
                 respuesta.Mensaje = parameters.Get<string>(Constante.OV_MESSAGE);
@@ -36,93 +87,82 @@ namespace YAPECITO.Repository.Repository.Implement
             }
         }
 
-        public ResponseHeader CrearCliente(Cliente cliente)
+        public ResponseHeader CrearCliente(Cliente clientes)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 var respuesta = new ResponseHeader();
                 var parameters = new DynamicParameters();
-                int idClienteGenerado = 0;
-                parameters.Add(Constante.TIPODOCUMENTO, cliente.TipoDocumento);
-                parameters.Add(Constante.NRODOCUMENTO, cliente.NroDocumento);
-                parameters.Add(Constante.PAISDOCUMENTO, cliente.PaisDocumento);
-                parameters.Add(Constante.NOMBRE, cliente.Nombre);
-                parameters.Add(Constante.APELLIDOPATERNO, cliente.ApellidoPaterno);
-                parameters.Add(Constante.APELLIDOMATERNO, cliente.ApellidoMaterno);
-                parameters.Add(Constante.FECHANACIMIENTO, cliente.FechaNacimiento);
-                parameters.Add(Constante.FECHACADUCIDAD, cliente.FechaCaducidad);
-                parameters.Add(Constante.FECHAEMISION, cliente.FechaEmision);
-                parameters.Add(Constante.CODPAISNACIMIENTO, cliente.CodPaisNacimiento);
-                parameters.Add(Constante.CODPAISNACIONALIDAD, cliente.CodPaisNacionalidad);
-                parameters.Add(Constante.SEXO, cliente.Sexo);
-                parameters.Add(Constante.OCUPACION, cliente.Ocupacion);
-                parameters.Add(Constante.CODPAISRESIDENCIA, cliente.CodPaisResidencia);
-                parameters.Add(Constante.DIRECCION1, cliente.Direccion1);
-                parameters.Add(Constante.CODPOSTAL, cliente.CodPostal);
-                parameters.Add(Constante.DEPARTAMENTO, cliente.Departamento);
-                parameters.Add(Constante.PROVINCIA, cliente.Provincia);
-                parameters.Add(Constante.DISTRITO, cliente.Distrito);
-                parameters.Add(Constante.EMAIL, cliente.Email);
-                parameters.Add(Constante.CODMOVILPAIS, cliente.CodMovilPais);
-                parameters.Add(Constante.NUMEROTELFMOVIL, cliente.NumeroTelfMovil);
-                parameters.Add(Constante.ESTADOCLIENTE, cliente.EstadoCliente);
-                parameters.Add(Constante.OV_ESTADO, Constante.OV_ESTADO, System.Data.DbType.String, System.Data.ParameterDirection.Output);
+
+                parameters.Add(Constante.NombreCompleto, clientes.NombreCompleto);
+                parameters.Add(Constante.DNI, clientes.DNI);
+                parameters.Add(Constante.telefono, clientes.telefono);
+                parameters.Add(Constante.email, clientes.email);
+                parameters.Add(Constante.Contraseña, clientes.contraseña);
+            
+                parameters.Add(Constante.Direccion, clientes.Direccion);
+                parameters.Add(Constante.Pais, clientes.Pais);
+                parameters.Add(Constante.ubigeo, clientes.ubigeo);
+                parameters.Add(Constante.estado, clientes.estado);
                 parameters.Add(Constante.OV_MESSAGE, Constante.OV_MESSAGE, System.Data.DbType.String, System.Data.ParameterDirection.Output);
-                parameters.Add(Constante.IDCLIENTE, idClienteGenerado, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+                parameters.Add(Constante.OV_ESTADO, Constante.OV_ESTADO, System.Data.DbType.String, System.Data.ParameterDirection.Output);
+                connection.Query(Constante.NAME_USP_CREARCLIENTES, parameters, commandType: System.Data.CommandType.StoredProcedure);
 
-                connection.Query(Constante.NAME_USP_CREAR_CLIENTE, parameters, commandType: System.Data.CommandType.StoredProcedure);
-
-                idClienteGenerado = parameters.Get<Int32>(Constante.IDCLIENTE);
-                respuesta.Estado = parameters.Get<String>(Constante.OV_ESTADO);
+                respuesta.Estado = parameters.Get<string>(Constante.OV_ESTADO);
                 respuesta.Mensaje = parameters.Get<String>(Constante.OV_MESSAGE);
-                cliente.IdCliente = idClienteGenerado;
-                respuesta.Detalle.Add(cliente.GetType().Name, cliente);
+         
+                respuesta.Detalle.Add(clientes.GetType().Name, clientes);
 
                 return respuesta;
             }
         }
 
-
-        public ResponseHeader ActualizarCliente(Cliente cliente)
+        public ResponseHeader GetByDocumento(string NombreCompleto)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 var respuesta = new ResponseHeader();
                 var parameters = new DynamicParameters();
-                parameters.Add(Constante.IDCLIENTE, cliente.IdCliente);
-                parameters.Add(Constante.TIPODOCUMENTO, cliente.TipoDocumento);
-                parameters.Add(Constante.NRODOCUMENTO, cliente.NroDocumento);
-                parameters.Add(Constante.PAISDOCUMENTO, cliente.PaisDocumento);
-                parameters.Add(Constante.NOMBRE, cliente.Nombre);
-                parameters.Add(Constante.APELLIDOPATERNO, cliente.ApellidoPaterno);
-                parameters.Add(Constante.APELLIDOMATERNO, cliente.ApellidoMaterno);
-                parameters.Add(Constante.FECHANACIMIENTO, cliente.FechaNacimiento);
-                parameters.Add(Constante.FECHACADUCIDAD, cliente.FechaCaducidad);
-                parameters.Add(Constante.FECHAEMISION, cliente.FechaEmision);
-                parameters.Add(Constante.CODPAISNACIMIENTO, cliente.CodPaisNacimiento);
-                parameters.Add(Constante.CODPAISNACIONALIDAD, cliente.CodPaisNacionalidad);
-                parameters.Add(Constante.SEXO, cliente.Sexo);
-                parameters.Add(Constante.OCUPACION, cliente.Ocupacion);
-                parameters.Add(Constante.CODPAISRESIDENCIA, cliente.CodPaisResidencia);
-                parameters.Add(Constante.DIRECCION1, cliente.Direccion1);
-                parameters.Add(Constante.CODPOSTAL, cliente.CodPostal);
-                parameters.Add(Constante.DEPARTAMENTO, cliente.Departamento);
-                parameters.Add(Constante.PROVINCIA, cliente.Provincia);
-                parameters.Add(Constante.DISTRITO, cliente.Distrito);
-                parameters.Add(Constante.EMAIL, cliente.Email);
-                parameters.Add(Constante.CODMOVILPAIS, cliente.CodMovilPais);
-                parameters.Add(Constante.NUMEROTELFMOVIL, cliente.NumeroTelfMovil);
+                parameters.Add(Constante.NombreCompleto, NombreCompleto);
+       
                 parameters.Add(Constante.OV_ESTADO, Constante.OV_ESTADO, System.Data.DbType.String, System.Data.ParameterDirection.Output);
                 parameters.Add(Constante.OV_MESSAGE, Constante.OV_MESSAGE, System.Data.DbType.String, System.Data.ParameterDirection.Output);
 
-                connection.Query(Constante.NAME_USP_ACTUALIZAR_CLIENTE, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                 IEnumerable<Cliente> responsedetail = connection.Query<Cliente>
+                (Constante.NAME_USP_BUSCAR_CLIENTES, parameters, commandType: System.Data.CommandType.StoredProcedure);
 
-                respuesta.Estado = parameters.Get<String>(Constante.OV_ESTADO);
-                respuesta.Mensaje = parameters.Get<String>(Constante.OV_MESSAGE);
-                respuesta.Detalle.Add(cliente.GetType().Name, cliente);
+                respuesta.Estado = parameters.Get<string>(Constante.OV_ESTADO);
+                respuesta.Mensaje = parameters.Get<string>(Constante.OV_MESSAGE);
+
+                if (respuesta.Estado.Equals(Constante.OK))
+                    respuesta.Detalle.Add(responsedetail.GetType().Name, responsedetail);
+
                 return respuesta;
             }
         }
 
+        public ResponseHeader getClientes( )
+        {
+            string sql = "Select * from clientes";
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var res = new ResponseHeader();
+                var Opedido = connection.Query<Cliente>(sql);
+
+                if (Opedido.Count() > 0)
+                {
+                    res.Estado = "0";
+                    res.Mensaje = "todo esta perfecto ";
+                    res.Detalle.Add("Pedido", Opedido);
+                }
+                else if (Opedido.Count() < 0)
+                {
+                    res.Estado = "1";
+                    res.Mensaje = "error al Procesar";
+                }
+              
+                return res;
+            }
+        }
     }
 }

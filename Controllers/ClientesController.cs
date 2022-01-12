@@ -24,39 +24,50 @@ namespace YAPECITO.Controllers
         {
         }
 
-        [HttpGet]
-        public IEnumerable<Cliente> Get()
-        {
-           
-            return _unit.Clientes.GetList();
-        }
+      
 
-        [HttpGet("{tipo}/{nroDocumento}")]
-        public IActionResult Get(string tipo, string nroDocumento)
+      
+
+        [HttpGet("BUSCAR CLIENTE")]
+        public IActionResult Get( string  NOMBRE_o_DNI)
         {
 
 
-            return Ok(_unit.Clientes.GetByDocumento(tipo, nroDocumento));
+            return Ok(_unit.Clientes.buscardni(NOMBRE_o_DNI));
         }
 
-        [HttpPost("crearCliente")]
+        [HttpPost("crearClientes")]
         public ResponseHeader CrearCliente([FromBody] Cliente cliente) //El [FromBody] es opcional
         {
 
             return _unit.Clientes.CrearCliente(cliente);
         }
         [HttpPut]
-        [Route("actualizarCliente")]
-        public ResponseHeader ActualizarCliente([FromBody] Cliente cliente)
+        [Route("actualizarcliente")]
+        public ResponseHeader ActualizarCliente([FromBody]   Cliente clientes, int IdClientes)
         {
-            return _unit.Clientes.ActualizarCliente(cliente);
+            return _unit.Clientes.ActualizarCliente(clientes, IdClientes);
+        }
+
+        [HttpPut]
+        [Route("ActualizarEstado")]
+        public ResponseHeader ActualizarEstado(int IdClientes, int estado)
+        {
+            return _unit.Clientes.Actualizarestado( IdClientes, estado);
+        }
+
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok(_unit.Clientes.getClientes());
         }
 
 
-       /* [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-             _unit.Clientes.Delete(_unit.Clientes.GetById(id));
-        }*/
+
+        /* [HttpDelete("{id}")]
+         public void Delete(int id)
+         {
+              _unit.Clientes.Delete(_unit.Clientes.GetById(id));
+         }*/
     }
 }

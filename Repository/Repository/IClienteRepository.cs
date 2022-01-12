@@ -11,9 +11,14 @@ namespace YAPECITO.Repository.Repository
 {
     public interface IClienteRepository: IRepository<Cliente>
     {
-        ResponseHeader GetByDocumento(string tipo, string nroDocumento);
-        ResponseHeader CrearCliente(Cliente cliente);
-        ResponseHeader ActualizarCliente(Cliente cliente);
-      
+
+        ResponseHeader getClientes();
+        ResponseHeader GetByDocumento(string NombreCompleto);
+        ResponseHeader buscardni( string NOMBRE_o_DNI);
+        ResponseHeader CrearCliente(Cliente clientes);
+        ResponseHeader ActualizarCliente(Cliente clientes,int IdClientes);
+        ResponseHeader Actualizarestado( int IdClientes, int estado);
+
+
     }
 }

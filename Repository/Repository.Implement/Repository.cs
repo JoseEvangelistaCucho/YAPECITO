@@ -1,6 +1,8 @@
 ﻿using Dapper.Contrib.Extensions;
 using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
+using YAPECITO.Models;
+using YAPECITO.ModelService;
 
 namespace YAPECITO.Repository.Repository.Implement
 {
@@ -13,6 +15,8 @@ namespace YAPECITO.Repository.Repository.Implement
             SqlMapperExtensions.TableNameMapper = (type) => { return $"[{ type.Name}]"; };
             _connectionString = connectionString;
         }
+
+    
 
         public bool Delete(T entity)
         {
