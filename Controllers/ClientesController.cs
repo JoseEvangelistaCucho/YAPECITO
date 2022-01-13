@@ -15,7 +15,7 @@ namespace YAPECITO.Controllers
     public class ClientesController : BaseController //Controller
     {
        // private readonly YAPECITOContext _context;
-
+// private readonly YAPECITOContext _context;
        /* public ClientesController(YAPECITOContext context)
         {
             _context = context;
